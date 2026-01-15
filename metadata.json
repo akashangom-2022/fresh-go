@@ -1,0 +1,8 @@
+{
+  "name": "FreshGo - Instant Grocery Delivery",
+  "description": "A high-performance grocery delivery application prototype featuring a product catalog, persistent shopping cart, AI-powered smart recommendations, and a seamless checkout flow.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
