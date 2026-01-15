@@ -5,14 +5,7 @@ import Home from './pages/Home';
 import Checkout from './pages/Checkout';
 import CartDrawer from './components/CartDrawer';
 import { Product, CartItem, Category, OrderDetails } from './types';
-
-const CheckCircleIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
-);
-
-const HomeIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-);
+import { CheckCircle2, Package, ArrowRight, Home as HomeIcon } from 'lucide-react';
 
 const App: React.FC = () => {
   const [view, setView] = useState<'home' | 'checkout' | 'success'>('home');
@@ -90,7 +83,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col selection:bg-green-100 selection:text-green-800">
+    <div className="min-h-screen flex flex-col">
       <Header 
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
@@ -120,36 +113,33 @@ const App: React.FC = () => {
         )}
 
         {view === 'success' && (
-          <div className="max-w-2xl mx-auto px-4 py-20 text-center animate-in fade-in zoom-in duration-500">
-            <div className="flex justify-center mb-8">
-              <div className="bg-green-100 p-8 rounded-full border-4 border-green-50 shadow-inner">
-                <CheckCircleIcon />
+          <div className="max-w-2xl mx-auto px-4 py-20 text-center">
+            <div className="flex justify-center mb-6">
+              <div className="bg-green-100 p-6 rounded-full">
+                <CheckCircle2Icon className="w-20 h-20 text-green-600" />
               </div>
             </div>
-            <h1 className="text-4xl font-black text-gray-900 mb-4">Order Placed!</h1>
-            <p className="text-gray-500 text-lg mb-8 max-w-md mx-auto leading-relaxed">
-              Yay, <span className="font-bold text-gray-800">{lastOrder?.fullName}</span>! 
-              Your delivery to <span className="font-medium text-gray-700 underline decoration-green-300 underline-offset-4">{lastOrder?.address}</span> is arriving in <span className="text-green-600 font-bold">10 mins</span>.
+            <h1 className="text-3xl font-extrabold text-gray-900 mb-2">Order Confirmed!</h1>
+            <p className="text-gray-600 mb-8">
+              Thank you, <span className="font-bold text-gray-800">{lastOrder?.fullName}</span>. 
+              Your order is on its way and will reach <span className="italic">{lastOrder?.address}</span> within 10 minutes.
             </p>
-            
-            <div className="bg-white border border-gray-100 rounded-3xl p-8 mb-10 shadow-xl shadow-green-900/5 flex flex-col items-center">
-               <div className="w-12 h-1 bg-gray-200 rounded-full mb-6"></div>
-               <div className="flex items-center gap-4 mb-6">
-                 <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                 <span className="text-sm font-bold text-gray-400 uppercase tracking-[0.2em]">Order Live Tracking</span>
-               </div>
-               <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden mb-4">
-                  <div className="h-full bg-green-500 w-[65%] rounded-full shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
-               </div>
-               <p className="text-xs font-bold text-gray-500">The rider is near your location</p>
+            <div className="bg-gray-50 border border-gray-100 rounded-2xl p-6 mb-8 text-left max-w-sm mx-auto">
+              <div className="flex items-center gap-3 mb-4">
+                <Package className="w-5 h-5 text-green-600" />
+                <span className="font-bold">Track Order #FG-{Math.floor(Math.random() * 1000000)}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-500">Delivery Status</span>
+                <span className="text-xs font-bold bg-green-100 text-green-700 px-2 py-1 rounded">Out for Delivery</span>
+              </div>
             </div>
-
             <button 
               onClick={handleBackToHome}
-              className="group inline-flex items-center gap-2 bg-green-600 text-white px-10 py-5 rounded-2xl font-black hover:bg-green-700 transition-all shadow-xl shadow-green-600/20 active:scale-95"
+              className="inline-flex items-center gap-2 bg-green-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-green-700 transition-all shadow-lg active:scale-95"
             >
-              <HomeIcon />
-              Continue Shopping
+              <HomeIconIcon className="w-5 h-5" />
+              Back to Home
             </button>
           </div>
         )}
@@ -164,58 +154,60 @@ const App: React.FC = () => {
         onCheckout={handleCheckoutStart}
       />
 
-      <footer className="bg-white border-t border-gray-100 py-12 mt-20">
+      <footer className="bg-white border-t border-gray-200 py-10">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-            <div className="space-y-4">
-              <div className="flex items-center gap-2">
-                <div className="bg-green-600 p-1 rounded-lg">
-                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M16.5 9.4 7.55 4.24"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+            <div className="col-span-2 md:col-span-1">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="bg-green-600 p-1.5 rounded-lg">
+                  <PackageIcon className="text-white w-4 h-4" />
                 </div>
-                <span className="text-2xl font-black text-green-700 italic">FreshGo</span>
+                <span className="text-lg font-bold text-green-700">FreshGo</span>
               </div>
-              <p className="text-sm text-gray-400 leading-relaxed">
-                Experience the magic of instant commerce. We bring the store to your door in minutes.
+              <p className="text-sm text-gray-500 max-w-xs">
+                Quality groceries delivered to your doorstep in minutes. Serving you 24/7 with the freshest picks.
               </p>
             </div>
             <div>
-              <h4 className="font-bold text-gray-900 mb-6 uppercase text-[10px] tracking-widest">About FreshGo</h4>
-              <ul className="text-sm text-gray-500 space-y-3">
-                <li><a href="#" className="hover:text-green-600 transition-colors">Career</a></li>
-                <li><a href="#" className="hover:text-green-600 transition-colors">Press</a></li>
-                <li><a href="#" className="hover:text-green-600 transition-colors">Blog</a></li>
-                <li><a href="#" className="hover:text-green-600 transition-colors">Privacy Policy</a></li>
+              <h4 className="font-bold text-gray-900 mb-4">Explore</h4>
+              <ul className="text-sm text-gray-500 space-y-2">
+                <li><a href="#" className="hover:text-green-600">Offers</a></li>
+                <li><a href="#" className="hover:text-green-600">Stores Near Me</a></li>
+                <li><a href="#" className="hover:text-green-600">Gift Cards</a></li>
+                <li><a href="#" className="hover:text-green-600">FreshGo Pro</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-bold text-gray-900 mb-6 uppercase text-[10px] tracking-widest">For Users</h4>
-              <ul className="text-sm text-gray-500 space-y-3">
-                <li><a href="#" className="hover:text-green-600 transition-colors">Offers</a></li>
-                <li><a href="#" className="hover:text-green-600 transition-colors">Help & Support</a></li>
-                <li><a href="#" className="hover:text-green-600 transition-colors">FreshGo Pro</a></li>
-                <li><a href="#" className="hover:text-green-600 transition-colors">Sitemap</a></li>
+              <h4 className="font-bold text-gray-900 mb-4">Help</h4>
+              <ul className="text-sm text-gray-500 space-y-2">
+                <li><a href="#" className="hover:text-green-600">Contact Us</a></li>
+                <li><a href="#" className="hover:text-green-600">FAQs</a></li>
+                <li><a href="#" className="hover:text-green-600">Terms of Service</a></li>
+                <li><a href="#" className="hover:text-green-600">Privacy Policy</a></li>
               </ul>
             </div>
-            <div className="space-y-6">
-              <h4 className="font-bold text-gray-900 uppercase text-[10px] tracking-widest">Download App</h4>
-              <div className="flex flex-col gap-3">
-                 <div className="h-10 w-32 bg-gray-900 rounded-lg flex items-center justify-center text-white text-[10px] font-bold">App Store</div>
-                 <div className="h-10 w-32 bg-gray-900 rounded-lg flex items-center justify-center text-white text-[10px] font-bold">Google Play</div>
+            <div>
+              <h4 className="font-bold text-gray-900 mb-4">Connect</h4>
+              <div className="flex gap-4">
+                 {/* Placeholder social icons */}
+                 <div className="w-8 h-8 bg-gray-100 rounded-full"></div>
+                 <div className="w-8 h-8 bg-gray-100 rounded-full"></div>
+                 <div className="w-8 h-8 bg-gray-100 rounded-full"></div>
               </div>
             </div>
           </div>
-          <div className="pt-8 border-t border-gray-50 flex flex-col sm:flex-row justify-between items-center gap-4 text-[10px] text-gray-400 font-bold uppercase tracking-widest">
-            <span>© 2024 FreshGo Delivery Services</span>
-            <div className="flex gap-6">
-              <span>Twitter</span>
-              <span>Instagram</span>
-              <span>Facebook</span>
-            </div>
+          <div className="pt-8 border-t border-gray-100 text-center text-xs text-gray-400">
+            © 2024 FreshGo Technologies Private Limited. All rights reserved.
           </div>
         </div>
       </footer>
     </div>
   );
 };
+
+// Shims
+const CheckCircle2Icon = ({ className }: { className?: string }) => <svg className={className} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>;
+const HomeIconIcon = ({ className }: { className?: string }) => <svg className={className} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>;
+const PackageIcon = ({ className }: { className?: string }) => <svg className={className} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16.5 9.4 7.55 4.24"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/></svg>;
 
 export default App;
